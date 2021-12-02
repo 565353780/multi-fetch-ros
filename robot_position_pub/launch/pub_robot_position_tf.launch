@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="world_name" default="map"/>
+  <arg name="robot_name" default="fetch_"/>
+  <arg name="robot_num" default="1"/>
+
+  <node name="RobotPositionPub_node" pkg="robot_position_pub" type="robot_position_pub_node" output="screen"
+    args="$(arg world_name) $(arg robot_name) $(arg robot_num)"/>
+        
+</launch>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="robot_name" default="fetch_" />
+    <arg name="robot_idx" default="0" />
+    <arg name="base_controller_publish_frequency" default="100.0"/>
+    <arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="z" default="0.0" />
+    <arg name="yaw" default="0.0" />
+
+  <include file="$(find fetch_gazebo)/launch/include/fetch.launch.xml">
+    <arg name="robot_name" value="$(arg robot_name)" />
+    <arg name="robot_idx" value="$(arg robot_idx)" />
+    <arg name="base_controller_publish_frequency" value="$(arg base_controller_publish_frequency)"/>
+    <arg name="x" value="$(arg x)" />
+    <arg name="y" value="$(arg y)" />
+    <arg name="z" value="$(arg z)" />
+    <arg name="yaw" value="$(arg yaw)" />
+  </include>
+
+  <include file="$(find fetch_gazebo)/launch/fetch_nav.launch">
+    <arg name="map_file" value="$(find fetch_gazebo_demo)/maps/test_zone.yaml" />
+    <arg name="robot_idx" value="$(arg robot_idx)" />
+  </include>
+
+  <!-- <include file="$(find multi_robot_gazebo)/launch/move_group.launch"> -->
+    <!-- <arg name="robot_idx" value="$(arg robot_idx)" /> -->
+  <!-- </include> -->
+
+</launch>

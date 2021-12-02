@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="robot_name" default="fetch_" />
+  <arg name="robot_idx" default="0" />
+  <arg name="x" default="0.0" />
+  <arg name="y" default="0.0" />
+  <arg name="z" default="0.0" />
+  <arg name="yaw" default="0.0" />
+  <arg name="base_controller_publish_frequency" default="100.0"/>
+
+  <group ns="$(arg robot_name)$(arg robot_idx)">
+    <!-- Setup controllers -->
+    <rosparam file="$(find fetch_gazebo)/config/default_controllers.yaml" command="load" />
+    <param name="base_controller/publish_frequency" value="$(arg base_controller_publish_frequency)"/>
+
+    <!-- URDF and TF support -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find fetch_gazebo)/robots/fetch.gazebo.xacro robot_name:=$(arg robot_name) robot_idx:=$(arg robot_idx)" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+      <param name="publish_frequency" type="double" value="100.0" />
+      <param name="tf_prefix" value="$(arg robot_name)$(arg robot_idx)" />
+    </node>
+
+    <!-- Put a robot in gazebo, make it look pretty -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" output="screen"
+          args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -model $(arg robot_name)$(arg robot_idx) -param robot_description"/>
+
+    <node name="prepare_robot" pkg="fetch_gazebo" type="prepare_simulated_robot.py" output="screen" />
+
+    <!-- Give this robot a serial number and version -->
+    <param name="robot/serial" value="ABCDEFGHIJKLMNOPQRSTUVWX" />
+    <param name="robot/version" value="0.0.1" />
+
+    <!-- Head Camera Pipeline -->
+    <include file="$(find fetch_gazebo)/launch/include/head_camera.launch.xml">
+      <arg name="robot_name" value="$(arg robot_name)" />
+      <arg name="robot_idx" value="$(arg robot_idx)" />
+    </include>
+
+    <!-- Publish base_scan_raw if anything subscribes to it -->
+    <node name="publish_base_scan_raw" pkg="topic_tools" type="relay" args="base_scan base_scan_raw" output="screen">
+      <param name="lazy" type="bool" value="True"/>
+    </node>
+
+    <!-- Start a mux between application and teleop -->
+    <node pkg="topic_tools" type="mux" name="cmd_vel_mux" respawn="true" args="base_controller/command /$(arg robot_name)$(arg robot_idx)/cmd_vel /$(arg robot_name)$(arg robot_idx)/teleop/cmd_vel" output="screen">
+      <remap from="mux" to="cmd_vel_mux" />
+    </node>
+  </group>
+
+</launch>
