@@ -26,7 +26,12 @@ catkin_ws$ catkin build
 ```shell
 roslaunch multi_robot_gazebo multi_fetch.launch
 roslaunch multi_robot_gazebo move_group.launch
+
+# use moveit and navigation to control all fetch
 rosrun multi_robot_gazebo fetch_controller.py
+
+# use keyboard to control all fetch
+rosrun multi_robot_gazebo multi_fetch_teleop_twist_keyboard.py
 ```
 
 ## SOURCE_EDIT_HISTORY
