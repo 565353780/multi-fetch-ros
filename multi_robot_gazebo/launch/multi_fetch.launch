@@ -15,7 +15,7 @@
     <arg name="world_file_path" value="$(arg world_file_path)"/>
   </include>
 
-  <include file="$(find fetch_gazebo)/launch/indexed_fetch.launch">
+  <include file="$(find fetch_gazebo)/launch/indexed_fetch.launch" if="$(eval arg('robot_num') > 0)">
     <arg name="robot_name" value="fetch_" />
     <arg name="robot_idx" value="0" />
     <arg name="base_controller_publish_frequency" value="$(arg base_controller_publish_frequency)"/>
@@ -25,7 +25,7 @@
     <arg name="yaw" value="$(eval arg('robot_yaw') + 0.0)" />
   </include>
 
-  <include file="$(find fetch_gazebo)/launch/indexed_fetch.launch">
+  <include file="$(find fetch_gazebo)/launch/indexed_fetch.launch" if="$(eval arg('robot_num') > 1)">
     <arg name="robot_name" value="fetch_" />
     <arg name="robot_idx" value="1" />
     <arg name="base_controller_publish_frequency" value="$(arg base_controller_publish_frequency)"/>
@@ -35,7 +35,7 @@
     <arg name="yaw" value="$(eval arg('robot_yaw') + 0.0)" />
   </include>
 
-  <include file="$(find fetch_gazebo)/launch/indexed_fetch.launch">
+  <include file="$(find fetch_gazebo)/launch/indexed_fetch.launch" if="$(eval arg('robot_num') > 2)">
     <arg name="robot_name" value="fetch_" />
     <arg name="robot_idx" value="2" />
     <arg name="base_controller_publish_frequency" value="$(arg base_controller_publish_frequency)"/>

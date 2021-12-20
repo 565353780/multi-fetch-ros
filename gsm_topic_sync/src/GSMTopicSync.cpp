@@ -56,7 +56,7 @@ bool GSMTopicSync::startSync()
         camera_rgb_image_raw_sub_vec.emplace_back(new message_filters::Subscriber<Image>(
               nh, robot_name_ + std::to_string(robot_idx) + robot_rgb_image_prefix + "image_raw", sub_queue_size_));
         camera_ground_truth_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
-              nh, robot_name_ + std::to_string(robot_idx) + "/ground_truth", sub_queue_size_));
+              nh, robot_name_ + std::to_string(robot_idx) + "/head_camera_ground_truth", sub_queue_size_));
 
         sync_vec.emplace_back(new Synchronizer<MySyncPolicy>(MySyncPolicy(sub_queue_size_),
                                                              *camera_depth_camera_info_sub_vec[robot_idx],
@@ -96,7 +96,7 @@ bool GSMTopicSync::startSync()
         camera_rgb_image_raw_sub_vec.emplace_back(new message_filters::Subscriber<Image>(
               nh, robot_name_ + std::to_string(robot_idx) + robot_rgb_image_prefix + "image_raw", sub_queue_size_));
         camera_ground_truth_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
-              nh, robot_name_ + std::to_string(robot_idx) + "/ground_truth", sub_queue_size_));
+              nh, robot_name_ + std::to_string(robot_idx) + "/head_camera_ground_truth", sub_queue_size_));
         
         sync_vec.emplace_back(new MySyncPolicy(*camera_depth_camera_info_sub_vec[robot_idx],
                                                *camera_depth_image_raw_sub_vec[robot_idx],
@@ -131,7 +131,7 @@ void GSMTopicSync::unionCallback(
   sensor_msgs::CameraInfo camera_rgb_camera_info_copy = *camera_rgb_camera_info;
   sensor_msgs::Image camera_rgb_image_raw_copy = *camera_rgb_image_raw;
 
-  ros::Time current_time = ros::Time::now();
+  ros::Time current_time = camera_ground_truth->header.stamp;
   camera_depth_camera_info_copy.header.stamp = current_time;
   camera_depth_image_raw_copy.header.stamp = current_time;
   camera_rgb_camera_info_copy.header.stamp = current_time;

@@ -95,7 +95,7 @@ int DiffDriveBaseController::init(ros::NodeHandle& nh, ControllerManager* manage
 
   // If using an external correction (such as robot_pose_ekf or graft)
   // we should not publish the TF frame from base->odom
-  nh.param<bool>("publish_tf", publish_tf_, true);
+  nh.param<bool>("publish_tf", publish_tf_, false);
 
   // The pose in the odometry message is specified in terms of the odometry frame
   nh.param<std::string>("odometry_frame", odom_.header.frame_id, name_space_ + "/odom");
@@ -371,6 +371,7 @@ void DiffDriveBaseController::publishCallback(const ros::TimerEvent& event)
   {
     return;
   }
+  return;
   last_pub_time_ = msg.header.stamp;
 
   odom_pub_.publish(msg);

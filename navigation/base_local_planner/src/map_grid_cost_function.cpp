@@ -50,7 +50,9 @@ MapGridCostFunction::MapGridCostFunction(costmap_2d::Costmap2D* costmap,
     xshift_(xshift),
     yshift_(yshift),
     is_local_goal_function_(is_local_goal_function),
-    stop_on_failure_(true) {}
+    stop_on_failure_(true)
+  {
+  }
 
 void MapGridCostFunction::setTargetPoses(std::vector<geometry_msgs::PoseStamped> target_poses) {
   target_poses_ = target_poses;

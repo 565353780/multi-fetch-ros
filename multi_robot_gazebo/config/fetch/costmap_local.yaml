@@ -7,4 +7,4 @@ plugins:
  - {name: inflater,  type: "costmap_2d::InflationLayer"}
 
 obstacles:
-  publish_observations: false
+  publish_observations: true

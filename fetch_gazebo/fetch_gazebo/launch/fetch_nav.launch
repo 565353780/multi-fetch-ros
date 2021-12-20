@@ -8,18 +8,30 @@
   <arg name="map_file" default="$(find fetch_gazebo_demo)/maps/test_zone.yaml" />
   <arg name="map_keepout_file" default="$(find fetch_gazebo_demo)/maps/test_zone.yaml" />
   <arg name="use_keepout" default="false" />
-  <arg name="launch_map_server" default="true" />
+  <arg name="launch_map_server" default="false" />
   <arg name="use_map_topic"  default="true" />
   <arg name="robot_idx" default="0" />
 
   <group ns="fetch_$(arg robot_idx)">
     <param name="amcl/odom_frame_id" value="fetch_$(arg robot_idx)/odom"/>
     <param name="amcl/base_frame_id" value="fetch_$(arg robot_idx)/base_link"/>
+
+    <param name="move_base/global_costmap/width" value="40.0"/>
+    <param name="move_base/global_costmap/height" value="40.0"/>
+    <param name="move_base/global_costmap/resolution" value="0.05"/>
+    <param name="move_base/global_costmap/origin_x" value="-20.0"/>
+    <param name="move_base/global_costmap/origin_y" value="-20.0"/>
+
     <param name="move_base/global_costmap/robot_base_frame" value="fetch_$(arg robot_idx)/base_link"/>
     <param name="move_base/local_costmap/robot_base_frame" value="fetch_$(arg robot_idx)/base_link"/>
+
+    <param name="move_base/global_costmap/obstacles/publish_observations" value="true"/>
+    <param name="move_base/local_costmap/obstacles/publish_observations" value="true"/>
+
+    <param name="move_base/global_costmap/always_send_full_costmap" value="true"/>
+    <param name="move_base/local_costmap/always_send_full_costmap" value="true"/>
+
     <param name="move_base/local_costmap/global_frame" value="fetch_$(arg robot_idx)/odom"/>
-    <param name="move_base/local_costmap/obstacles/base_scan/topic" value="fetch_$(arg robot_idx)/base_scan"/>
-    <param name="move_base/local_costmap/obstacles/observation_sources" value="fetch_$(arg robot_idx)/base_scan"/>
 
     <!-- Navigation parameter files -->
     <arg name="move_base_include" default="$(find multi_robot_gazebo)/launch/include/move_base.launch.xml" />

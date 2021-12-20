@@ -35,4 +35,6 @@
     <arg name="robot_num" value="$(arg robot_num)"/>
   </include>
 
+  <include file="$(find occupancy_grid_publisher)/launch/pub_occupancy_grid.launch"/>
+
 </launch>

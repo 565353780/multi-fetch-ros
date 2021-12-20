@@ -20,10 +20,9 @@
     <arg name="yaw" value="$(arg yaw)" />
   </include>
 
-  <include file="$(find fetch_gazebo)/launch/fetch_nav.launch">
-    <arg name="map_file" value="$(find fetch_gazebo_demo)/maps/test_zone.yaml" />
-    <arg name="robot_idx" value="$(arg robot_idx)" />
-  </include>
+  <!-- <include file="$(find fetch_gazebo)/launch/fetch_nav.launch"> -->
+    <!-- <arg name="robot_idx" value="$(arg robot_idx)" /> -->
+  <!-- </include> -->
 
   <!-- <include file="$(find multi_robot_gazebo)/launch/move_group.launch"> -->
     <!-- <arg name="robot_idx" value="$(arg robot_idx)" /> -->

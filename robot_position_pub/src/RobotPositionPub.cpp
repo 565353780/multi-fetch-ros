@@ -20,7 +20,7 @@ bool RobotPositionPub::startSync()
   //0 : TFOnly
   //0 : ApproximateTime
   //1 : TimeSynchronizer
-  size_t sync_mode = 1;
+  size_t sync_mode = 0;
 
   switch(sync_mode)
   {
@@ -34,7 +34,7 @@ bool RobotPositionPub::startSync()
         robot_ground_turth_sub_vec.emplace_back(camera_ground_truth_sub);
 
         robot_ground_turth_sub_vec[robot_idx] = nh.subscribe<Odometry>(
-            robot_name_ + std::to_string(robot_idx) + "/ground_truth",
+            robot_name_ + std::to_string(robot_idx) + "/base_link_ground_truth",
             1,
             [this, robot_idx](const auto& msg){ this->tfOnlyCallback(msg, robot_idx); });
       }
@@ -56,7 +56,7 @@ bool RobotPositionPub::startSync()
         odom_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
               nh, robot_name_ + std::to_string(robot_idx) + "/odom", sub_queue_size_));
         robot_ground_truth_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
-              nh, robot_name_ + std::to_string(robot_idx) + "/ground_truth", sub_queue_size_));
+              nh, robot_name_ + std::to_string(robot_idx) + "/base_link_ground_truth", sub_queue_size_));
 
         sync_vec.emplace_back(new Synchronizer<MySyncPolicy>(MySyncPolicy(sub_queue_size_),
                                                              *odom_sub_vec[robot_idx],
@@ -84,7 +84,7 @@ bool RobotPositionPub::startSync()
         odom_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
               nh, robot_name_ + std::to_string(robot_idx) + "/odom", sub_queue_size_));
         robot_ground_truth_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
-              nh, robot_name_ + std::to_string(robot_idx) + "/ground_truth", sub_queue_size_));
+              nh, robot_name_ + std::to_string(robot_idx) + "/base_link_ground_truth", sub_queue_size_));
 
         sync_vec.emplace_back(new MySyncPolicy(*odom_sub_vec[robot_idx],
                                                *robot_ground_truth_sub_vec[robot_idx],
@@ -116,23 +116,36 @@ void RobotPositionPub::tfOnlyCallback(
   tf2::Quaternion q_map_to_baselink;
   tf2::convert(robot_ground_truth->pose.pose.orientation, q_map_to_baselink);
 
-  geometry_msgs::TransformStamped transformStamped_map_to_baselink;
-  transformStamped_map_to_baselink.header.frame_id = world_name_;
-  transformStamped_map_to_baselink.child_frame_id = robot_name_ + std::to_string(robot_idx) + "/odom";
-  transformStamped_map_to_baselink.transform.translation.x = robot_position_x;
-  transformStamped_map_to_baselink.transform.translation.y = robot_position_y;
-  transformStamped_map_to_baselink.transform.translation.z = robot_position_z;
-  transformStamped_map_to_baselink.transform.rotation.x = q_map_to_baselink.x();
-  transformStamped_map_to_baselink.transform.rotation.y = q_map_to_baselink.y();
-  transformStamped_map_to_baselink.transform.rotation.z = q_map_to_baselink.z();
-  transformStamped_map_to_baselink.transform.rotation.w = q_map_to_baselink.w();
-  transformStamped_map_to_baselink.header.stamp = robot_ground_truth->header.stamp;
-  if(transformStamped_map_to_baselink.header.stamp == last_pub_tf_time_vec_[robot_idx])
+  geometry_msgs::TransformStamped transformStamped_map_to_odom;
+  transformStamped_map_to_odom.header.frame_id = world_name_;
+  transformStamped_map_to_odom.child_frame_id = robot_name_ + std::to_string(robot_idx) + "/odom";
+  transformStamped_map_to_odom.transform.translation.x = 0;
+  transformStamped_map_to_odom.transform.translation.y = 0;
+  transformStamped_map_to_odom.transform.translation.z = 0;
+  transformStamped_map_to_odom.transform.rotation.x = 0;
+  transformStamped_map_to_odom.transform.rotation.y = 0;
+  transformStamped_map_to_odom.transform.rotation.z = 0;
+  transformStamped_map_to_odom.transform.rotation.w = 1;
+  transformStamped_map_to_odom.header.stamp = robot_ground_truth->header.stamp;
+
+  geometry_msgs::TransformStamped transformStamped_odom_to_baselink;
+  transformStamped_odom_to_baselink.header.frame_id = robot_name_ + std::to_string(robot_idx) + "/odom";
+  transformStamped_odom_to_baselink.child_frame_id = robot_name_ + std::to_string(robot_idx) + "/base_link";
+  transformStamped_odom_to_baselink.transform.translation.x = robot_position_x;
+  transformStamped_odom_to_baselink.transform.translation.y = robot_position_y;
+  transformStamped_odom_to_baselink.transform.translation.z = robot_position_z;
+  transformStamped_odom_to_baselink.transform.rotation.x = q_map_to_baselink.x();
+  transformStamped_odom_to_baselink.transform.rotation.y = q_map_to_baselink.y();
+  transformStamped_odom_to_baselink.transform.rotation.z = q_map_to_baselink.z();
+  transformStamped_odom_to_baselink.transform.rotation.w = q_map_to_baselink.w();
+  transformStamped_odom_to_baselink.header.stamp = robot_ground_truth->header.stamp;
+  if(transformStamped_odom_to_baselink.header.stamp == last_pub_tf_time_vec_[robot_idx])
   {
     return;
   }
-  tf_pub_.sendTransform(transformStamped_map_to_baselink);
-  last_pub_tf_time_vec_[robot_idx] = transformStamped_map_to_baselink.header.stamp;
+  tf_pub_.sendTransform(transformStamped_map_to_odom);
+  tf_pub_.sendTransform(transformStamped_odom_to_baselink);
+  last_pub_tf_time_vec_[robot_idx] = transformStamped_odom_to_baselink.header.stamp;
 
   // tf2::Quaternion q_baselink_to_camera;
   // q_baselink_to_camera.setEuler(PI / 2.0, 0, -PI / 2.0);
@@ -163,6 +176,10 @@ void RobotPositionPub::unionCallback(
   const float& robot_position_y = robot_ground_truth->pose.pose.position.y;
   const float& robot_position_z = robot_ground_truth->pose.pose.position.z;
 
+  const float& odom_position_x = odom_ground_truth->pose.pose.position.x;
+  const float& odom_position_y = odom_ground_truth->pose.pose.position.y;
+  const float& odom_position_z = odom_ground_truth->pose.pose.position.z;
+
   tf2::Quaternion q_odom = tf2::Quaternion(
       odom_ground_truth->pose.pose.orientation.x,
       odom_ground_truth->pose.pose.orientation.y,
@@ -180,9 +197,9 @@ void RobotPositionPub::unionCallback(
   geometry_msgs::TransformStamped transformStamped_map_to_odom;
   transformStamped_map_to_odom.header.frame_id = world_name_;
   transformStamped_map_to_odom.child_frame_id = robot_name_ + std::to_string(robot_idx) + "/odom";
-  transformStamped_map_to_odom.transform.translation.x = robot_position_x;
-  transformStamped_map_to_odom.transform.translation.y = robot_position_y;
-  transformStamped_map_to_odom.transform.translation.z = robot_position_z;
+  transformStamped_map_to_odom.transform.translation.x = robot_position_x - odom_position_x;
+  transformStamped_map_to_odom.transform.translation.y = robot_position_y - odom_position_y;
+  transformStamped_map_to_odom.transform.translation.z = robot_position_z - odom_position_z;
   transformStamped_map_to_odom.transform.rotation.x = q_map_to_odom.x();
   transformStamped_map_to_odom.transform.rotation.y = q_map_to_odom.y();
   transformStamped_map_to_odom.transform.rotation.z = q_map_to_odom.z();
