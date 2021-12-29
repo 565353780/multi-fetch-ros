@@ -34,7 +34,7 @@ rosrun multi_robot_gazebo fetch_controller.py
 rosrun multi_robot_gazebo multi_fetch_teleop_twist_keyboard.py
 ```
 
-## SOURCE_EDIT_HISTORY
+## SOURCE EDIT HISTORY
 ```shell
 navigation/base_local_planner/src/goal_functions.cpp :
   transformGlobalPlan() :
