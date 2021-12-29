@@ -6,7 +6,7 @@
   <arg name="sensor_name" default="primesense" />
   <arg name="visualize" default="true" />
   <arg name="world_name" default="map"/>
-  <arg name="robot_num" default="1"/>
+  <arg name="robot_num" default="3"/>
   <arg name="robot_name" default="fetch_"/>
   <arg name="base_controller_publish_frequency" default="100.0"/>
   <arg name="robot_x" default="0.0" />

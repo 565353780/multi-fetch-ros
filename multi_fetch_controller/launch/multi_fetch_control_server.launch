@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="robot_name" default="fetch_" />
+  <arg name="robot_num" default="3" />
+
+  <arg name="robot_idx" value="$(eval arg('robot_num') - 1)" />
+
+  <node name="fetch_$(arg robot_idx)_control_service" pkg="multi_fetch_controller" type="multi_fetch_control_server.py" output="screen" if="$(eval arg('robot_num') > 0)">
+    <param name="robot_idx" type="str" value="$(arg robot_idx)"/>
+  </node>
+
+  <include file="$(find multi_fetch_controller)/launch/multi_fetch_control_server.launch" if="$(eval arg('robot_num') > 0)">
+    <arg name="robot_num" value="$(arg robot_idx)"/>
+  </include>
+
+</launch>
