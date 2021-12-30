@@ -3,11 +3,15 @@
 bool RobotPositionPub::setRobotParam(
     const std::string &world_name,
     const std::string &robot_name,
-    const size_t &robot_num)
+    const size_t &robot_num,
+    const std::string& robot_position_topic_name,
+    const size_t& need_odom)
 {
   world_name_ = world_name;
   robot_name_ = robot_name;
   robot_num_ = robot_num;
+  robot_position_topic_name_ = robot_position_topic_name;
+  need_odom_ = need_odom;
 
   last_pub_tf_time_vec_.resize(robot_num_, ros::Time());
 
@@ -16,7 +20,6 @@ bool RobotPositionPub::setRobotParam(
 
 bool RobotPositionPub::startSync()
 {
-
   //0 : TFOnly
   //0 : ApproximateTime
   //1 : TimeSynchronizer
@@ -34,7 +37,7 @@ bool RobotPositionPub::startSync()
         robot_ground_turth_sub_vec.emplace_back(camera_ground_truth_sub);
 
         robot_ground_turth_sub_vec[robot_idx] = nh.subscribe<Odometry>(
-            robot_name_ + std::to_string(robot_idx) + "/base_link_ground_truth",
+            robot_name_ + std::to_string(robot_idx) + "/" + robot_position_topic_name_,
             1,
             [this, robot_idx](const auto& msg){ this->tfOnlyCallback(msg, robot_idx); });
       }
@@ -53,10 +56,19 @@ bool RobotPositionPub::startSync()
 
       for(size_t robot_idx = 0; robot_idx < robot_num_; ++robot_idx)
       {
-        odom_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
-              nh, robot_name_ + std::to_string(robot_idx) + "/odom", sub_queue_size_));
+        if(need_odom_ == 1)
+        {
+          odom_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
+                nh, robot_name_ + std::to_string(robot_idx) + "/odom", sub_queue_size_));
+        }
+        else
+        {
+          odom_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
+                nh, world_name_, sub_queue_size_));
+        }
+
         robot_ground_truth_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
-              nh, robot_name_ + std::to_string(robot_idx) + "/base_link_ground_truth", sub_queue_size_));
+              nh, robot_name_ + std::to_string(robot_idx) + "/" + robot_position_topic_name_, sub_queue_size_));
 
         sync_vec.emplace_back(new Synchronizer<MySyncPolicy>(MySyncPolicy(sub_queue_size_),
                                                              *odom_sub_vec[robot_idx],
@@ -81,10 +93,19 @@ bool RobotPositionPub::startSync()
 
       for(size_t robot_idx = 0; robot_idx < robot_num_; ++robot_idx)
       {
-        odom_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
-              nh, robot_name_ + std::to_string(robot_idx) + "/odom", sub_queue_size_));
+        if(need_odom_ == 1)
+        {
+          odom_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
+                nh, robot_name_ + std::to_string(robot_idx) + "/odom", sub_queue_size_));
+        }
+        else
+        {
+          odom_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
+                nh, world_name_, sub_queue_size_));
+        }
+
         robot_ground_truth_sub_vec.emplace_back(new message_filters::Subscriber<Odometry>(
-              nh, robot_name_ + std::to_string(robot_idx) + "/base_link_ground_truth", sub_queue_size_));
+              nh, robot_name_ + std::to_string(robot_idx) + "/" + robot_position_topic_name_, sub_queue_size_));
 
         sync_vec.emplace_back(new MySyncPolicy(*odom_sub_vec[robot_idx],
                                                *robot_ground_truth_sub_vec[robot_idx],
@@ -129,7 +150,16 @@ void RobotPositionPub::tfOnlyCallback(
   transformStamped_map_to_odom.header.stamp = robot_ground_truth->header.stamp;
 
   geometry_msgs::TransformStamped transformStamped_odom_to_baselink;
-  transformStamped_odom_to_baselink.header.frame_id = robot_name_ + std::to_string(robot_idx) + "/odom";
+
+  if(need_odom_ == 1)
+  {
+    transformStamped_odom_to_baselink.header.frame_id = robot_name_ + std::to_string(robot_idx) + "/odom";
+  }
+  else
+  {
+    transformStamped_odom_to_baselink.header.frame_id = world_name_;
+  }
+
   transformStamped_odom_to_baselink.child_frame_id = robot_name_ + std::to_string(robot_idx) + "/base_link";
   transformStamped_odom_to_baselink.transform.translation.x = robot_position_x;
   transformStamped_odom_to_baselink.transform.translation.y = robot_position_y;
@@ -143,7 +173,10 @@ void RobotPositionPub::tfOnlyCallback(
   {
     return;
   }
-  tf_pub_.sendTransform(transformStamped_map_to_odom);
+  if(need_odom_ == 1)
+  {
+    tf_pub_.sendTransform(transformStamped_map_to_odom);
+  }
   tf_pub_.sendTransform(transformStamped_odom_to_baselink);
   last_pub_tf_time_vec_[robot_idx] = transformStamped_odom_to_baselink.header.stamp;
 
