@@ -34,6 +34,7 @@ public:
       const std::string& robot_name,
       const size_t& robot_num,
       const std::string& robot_position_topic_name,
+      const std::string& robot_position_ground_truth_topic_name,
       const size_t& need_odom);
 
   bool startSync();
@@ -61,6 +62,7 @@ private:
   size_t robot_num_;
   std::string robot_name_;
   std::string robot_position_topic_name_;
+  std::string robot_position_ground_truth_topic_name_;
   size_t need_odom_;
 
   std::vector<ros::Time> last_pub_tf_time_vec_;

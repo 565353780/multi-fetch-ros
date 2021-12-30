@@ -4,10 +4,11 @@
   <arg name="world_name" default="map"/>
   <arg name="robot_name" default="fetch_"/>
   <arg name="robot_num" default="1"/>
-  <arg name="robot_position_topic_name" default="base_link_ground_truth"/>
+  <arg name="robot_position_topic_name" default="base_link"/>
+  <arg name="robot_position_ground_truth_name" default="base_link_ground_truth"/>
   <arg name="need_odom" default="1"/>
 
   <node name="RobotPositionPub_node" pkg="robot_position_pub" type="robot_position_pub_node" output="screen"
-    args="$(arg world_name) $(arg robot_name) $(arg robot_num) $(arg robot_position_topic_name) $(arg need_odom)"/>
+    args="$(arg world_name) $(arg robot_name) $(arg robot_num) $(arg robot_position_topic_name) $(arg robot_position_ground_truth_name) $(arg need_odom)"/>
 </launch>
 

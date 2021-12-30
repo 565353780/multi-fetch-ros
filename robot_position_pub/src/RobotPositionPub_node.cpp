@@ -10,6 +10,7 @@ int main(int argc, char** argv)
   std::string robot_name = "";
   size_t robot_num = 0;
   std::string robot_position_topic_name = "";
+  std::string robot_position_ground_truth_topic_name = "";
   size_t need_odom = 2;
 
   if(argc > 1)
@@ -34,6 +35,11 @@ int main(int argc, char** argv)
 
   if(argc > 5)
   {
+    robot_position_ground_truth_topic_name = argv[5];
+  }
+
+  if(argc > 6)
+  {
     need_odom = atoi(argv[5]);
   }
 
@@ -41,6 +47,7 @@ int main(int argc, char** argv)
       robot_name == "" ||
       robot_num == 0 ||
       robot_position_topic_name == "" ||
+      robot_position_ground_truth_topic_name == "" ||
       need_odom == 2)
   {
     std::cout << "RobotPositionPub::main :\n" <<
@@ -54,6 +61,7 @@ int main(int argc, char** argv)
       robot_name,
       robot_num,
       robot_position_topic_name,
+      robot_position_ground_truth_topic_name,
       need_odom);
 
   robot_position_pub.startSync();
