@@ -54,7 +54,7 @@
     <arg name="robot_num" value="$(arg robot_num)"/>
     <arg name="robot_position_topic_name" default="$(arg robot_position_topic_name)"/>
     <arg name="robot_position_ground_truth_name" default="$(arg robot_position_ground_truth_name)"/>
-    <arg name="need_odom" default="$(arg need_odom)"/>
+    <arg name="need_odom" value="$(arg need_odom)"/>
   </include>
 
 </launch>

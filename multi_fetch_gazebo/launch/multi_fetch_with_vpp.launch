@@ -25,9 +25,9 @@
     <arg name="world_name" value="$(arg world_name)"/>
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="robot_num" value="$(arg robot_num)"/>
-    <arg name="robot_position_topic_name" default="$(arg robot_position_topic_name)"/>
-    <arg name="robot_position_ground_truth_name" default="$(arg robot_position_ground_truth_name)"/>
-    <arg name="need_odom" default="$(arg need_odom)"/>
+    <arg name="robot_position_topic_name" value="$(arg robot_position_topic_name)"/>
+    <arg name="robot_position_ground_truth_name" value="$(arg robot_position_ground_truth_name)"/>
+    <arg name="need_odom" value="$(arg need_odom)"/>
     <arg name="base_controller_publish_frequency" value="$(arg base_controller_publish_frequency)"/>
     <arg name="robot_x" value="$(arg robot_x)" />
     <arg name="robot_y" value="$(arg robot_y)" />
