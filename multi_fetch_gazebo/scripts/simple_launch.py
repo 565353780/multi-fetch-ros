@@ -1,15 +1,15 @@
 import roslaunch
 import rospy
 
-world_name = "world_name:=$(find multi_robot_gazebo)/worlds/big_livingroom.world"
+world_name = "world_name:=$(find multi_fetch_gazebo)/worlds/big_livingroom.world"
 robot_num = "robot_num:=3"
 
 uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
 roslaunch.configure_logging(uuid)
 
 vpp_cli_args = [
-    "multi_robot_gazebo",
-    "multi_robot_with_vpp.launch",
+    "multi_fetch_gazebo",
+    "multi_fetch_with_vpp.launch",
     world_name,
     robot_num,
 ]

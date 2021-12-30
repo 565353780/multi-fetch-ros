@@ -8,13 +8,13 @@
 
   <arg name="robot_idx" value="$(eval arg('robot_num') - 1)" />
 
-  <include file="$(find multi_robot_gazebo)/launch/move_group.launch" if="$(eval arg('robot_num') > 0)">
+  <include file="$(find multi_fetch_gazebo)/launch/move_group.launch" if="$(eval arg('robot_num') > 0)">
     <arg name="robot_idx" value="$(arg robot_idx)"/>
     <arg name="load_robot_description" value="$(arg load_robot_description)"/>
     <arg name="robot_description" value="$(arg robot_description)"/>
   </include>
 
-  <include file="$(find multi_robot_gazebo)/launch/multi_fetch_move_group.launch" if="$(eval arg('robot_num') > 0)">
+  <include file="$(find multi_fetch_gazebo)/launch/multi_fetch_move_group.launch" if="$(eval arg('robot_num') > 0)">
     <arg name="robot_num" value="$(arg robot_idx)"/>
     <arg name="load_robot_description" value="$(arg load_robot_description)"/>
     <arg name="robot_description" value="$(arg robot_description)"/>

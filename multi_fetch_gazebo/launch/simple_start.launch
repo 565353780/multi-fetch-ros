@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-  <arg name="world_file_path" default="$(find multi_robot_gazebo)/worlds/big_livingroom.world"/>
+  <arg name="world_file_path" default="$(find multi_fetch_gazebo)/worlds/big_livingroom.world"/>
   <arg name="scene_name" default="multi_robot_scene" />
   <arg name="sensor_name" default="primesense" />
   <arg name="visualize" default="true" />
@@ -14,7 +14,7 @@
   <arg name="robot_z" default="0.0" />
   <arg name="robot_yaw" default="0.0" />
 
-  <include file="$(find multi_robot_gazebo)/launch/multi_fetch_with_vpp.launch">
+  <include file="$(find multi_fetch_gazebo)/launch/multi_fetch_with_vpp.launch">
     <arg name="world_file_path" value="$(arg world_file_path)"/>
     <arg name="scene_name" value="$(arg scene_name)" />
     <arg name="sensor_name" value="$(arg sensor_name)" />
@@ -27,15 +27,4 @@
     <arg name="robot_z" value="$(arg robot_z)" />
     <arg name="robot_yaw" value="$(arg robot_yaw)" />
   </include>
-
-  <include file="$(find virtual_scan)/launch/virtual_scan_server.launch"/>
-
-  <!-- <include file="$(find co_scan)/launch/co_scan.launch"/> -->
-
-  <include file="$(find grnet_detect)/launch/grnet_service.launch"/>
-
-  <include file="$(find pointcloud2_to_object_vec_converter)/launch/PointCloud2ToObjectVecConverterServer.launch"/>
-
-  <include file="$(find view_point_extractor)/launch/ViewPointExtractorServer.launch"/>
-
 </launch>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-  <arg name="world_file_path" default="$(find multi_robot_gazebo)/worlds/big_livingroom.world"/>
+  <arg name="world_file_path" default="$(find multi_fetch_gazebo)/worlds/big_livingroom.world"/>
   <arg name="scene_name" default="multi_robot_scene" />
   <arg name="sensor_name" default="primesense" />
   <arg name="visualize" default="true" />
@@ -14,7 +14,7 @@
   <arg name="robot_z" default="0.0" />
   <arg name="robot_yaw" default="0.0" />
 
-  <include file="$(find multi_robot_gazebo)/launch/multi_fetch.launch">
+  <include file="$(find multi_fetch_gazebo)/launch/multi_fetch.launch">
     <arg name="world_file_path" value="$(arg world_file_path)"/>
     <arg name="world_name" value="$(arg world_name)"/>
     <arg name="robot_name" value="$(arg robot_name)"/>
