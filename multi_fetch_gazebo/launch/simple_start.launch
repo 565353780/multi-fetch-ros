@@ -8,6 +8,9 @@
   <arg name="world_name" default="map"/>
   <arg name="robot_num" default="3"/>
   <arg name="robot_name" default="fetch_"/>
+  <arg name="robot_depth_image_topic_prefix" default="/head_camera/depth_registered/"/>
+  <arg name="robot_rgb_image_topic_prefix" default="/head_camera/rgb/"/>
+  <arg name="robot_camera_groud_truth_topic_name" default="head_camera_ground_truth"/>
   <arg name="base_controller_publish_frequency" default="100.0"/>
   <arg name="robot_x" default="0.0" />
   <arg name="robot_y" default="0.0" />
@@ -22,6 +25,9 @@
     <arg name="world_name" value="$(arg world_name)"/>
     <arg name="robot_num" value="$(arg robot_num)"/>
     <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="robot_depth_image_topic_prefix" value="$(arg robot_depth_image_topic_prefix)"/>
+    <arg name="robot_rgb_image_topic_prefix" value="$(arg robot_rgb_image_topic_prefix)"/>
+    <arg name="robot_camera_groud_truth_topic_name" value="$(arg robot_camera_groud_truth_topic_name)"/>
     <arg name="robot_x" value="$(arg robot_x)" />
     <arg name="robot_y" value="$(arg robot_y)" />
     <arg name="robot_z" value="$(arg robot_z)" />
