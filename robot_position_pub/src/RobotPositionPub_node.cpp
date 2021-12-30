@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 
   if(argc > 6)
   {
-    need_odom = atoi(argv[5]);
+    need_odom = atoi(argv[6]);
   }
 
   if(world_name == "" ||
