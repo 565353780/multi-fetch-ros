@@ -171,7 +171,7 @@ void RobotPositionPub::tfOnlyCallback(
   transformStamped_odom_to_baselink.transform.rotation.z = q_map_to_baselink.z();
   transformStamped_odom_to_baselink.transform.rotation.w = q_map_to_baselink.w();
   transformStamped_odom_to_baselink.header.stamp = robot_ground_truth->header.stamp;
-  if(transformStamped_odom_to_baselink.header.stamp == last_pub_tf_time_vec_[robot_idx])
+  if(robot_ground_truth->header.stamp == last_pub_tf_time_vec_[robot_idx])
   {
     return;
   }
@@ -180,7 +180,7 @@ void RobotPositionPub::tfOnlyCallback(
     tf_pub_.sendTransform(transformStamped_map_to_odom);
   }
   tf_pub_.sendTransform(transformStamped_odom_to_baselink);
-  last_pub_tf_time_vec_[robot_idx] = transformStamped_odom_to_baselink.header.stamp;
+  last_pub_tf_time_vec_[robot_idx] = robot_ground_truth->header.stamp;
 
   // tf2::Quaternion q_baselink_to_camera;
   // q_baselink_to_camera.setEuler(PI / 2.0, 0, -PI / 2.0);
