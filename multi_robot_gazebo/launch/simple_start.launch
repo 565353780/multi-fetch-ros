@@ -28,14 +28,14 @@
     <arg name="robot_yaw" value="$(arg robot_yaw)" />
   </include>
 
-  <!-- <include file="$(find virtual_scan)/launch/virtual_scan_server.launch"/> -->
+  <include file="$(find virtual_scan)/launch/virtual_scan_server.launch"/>
 
   <!-- <include file="$(find co_scan)/launch/co_scan.launch"/> -->
 
-  <!-- <include file="$(find grnet_detect)/launch/grnet_service.launch"/> -->
+  <include file="$(find grnet_detect)/launch/grnet_service.launch"/>
 
-  <!-- <include file="$(find pointcloud2_to_object_vec_converter)/launch/PointCloud2ToObjectVecConverterServer.launch"/> -->
+  <include file="$(find pointcloud2_to_object_vec_converter)/launch/PointCloud2ToObjectVecConverterServer.launch"/>
 
-  <!-- <include file="$(find view_point_extractor)/launch/ViewPointExtractorServer.launch"/> -->
+  <include file="$(find view_point_extractor)/launch/ViewPointExtractorServer.launch"/>
 
 </launch>
