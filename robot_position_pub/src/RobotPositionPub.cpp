@@ -132,6 +132,7 @@ void RobotPositionPub::tfOnlyCallback(
     const OdometryConstPtr& robot_ground_truth,
     size_t robot_idx)
 {
+  std::cout << need_odom_ << std::endl;
   const float& robot_position_x = robot_ground_truth->pose.pose.position.x;
   const float& robot_position_y = robot_ground_truth->pose.pose.position.y;
   const float& robot_position_z = robot_ground_truth->pose.pose.position.z;
