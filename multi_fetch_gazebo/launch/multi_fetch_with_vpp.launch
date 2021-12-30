@@ -36,5 +36,5 @@
   </include>
 
   <include file="$(find occupancy_grid_publisher)/launch/pub_occupancy_grid.launch"/>
-
 </launch>
+
