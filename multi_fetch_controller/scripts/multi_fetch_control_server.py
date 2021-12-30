@@ -20,7 +20,7 @@ from moveit_msgs.msg import MoveItErrorCodes
 from moveit_python import MoveGroupInterface, PlanningSceneInterface
 from geometry_msgs.msg import PoseStamped, Pose, Point, Quaternion, Twist
 
-from multi_fetch_controller.srv import ViewPointToNone
+from multi_fetch_controller.srv import ViewPointToBool
 
 class FetchController(object):
     """ Control the camera by controlling fetch """
@@ -315,7 +315,7 @@ class FetchController(object):
 
     def startService(self):
         fetch_control_service = rospy.Service("fetch_" + self.robot_idx + "_control_service",
-                                              ViewPointToNone,
+                                              ViewPointToBool,
                                               self.moveToViewPoint)
         rospy.spin()
         return True
