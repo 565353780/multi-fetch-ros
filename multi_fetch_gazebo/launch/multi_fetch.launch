@@ -5,6 +5,9 @@
   <arg name="world_name" default="map"/>
   <arg name="robot_name" default="fetch_"/>
   <arg name="robot_num" default="3"/>
+  <arg name="robot_position_topic_name" default="base_link"/>
+  <arg name="robot_position_ground_truth_name" default="base_link_ground_truth"/>
+  <arg name="need_odom" default="1"/>
   <arg name="base_controller_publish_frequency" default="100.0"/>
   <arg name="robot_x" default="0.0" />
   <arg name="robot_y" default="0.0" />
@@ -49,6 +52,9 @@
     <arg name="world_name" value="$(arg world_name)"/>
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="robot_num" value="$(arg robot_num)"/>
+    <arg name="robot_position_topic_name" default="$(arg robot_position_topic_name)"/>
+    <arg name="robot_position_ground_truth_name" default="$(arg robot_position_ground_truth_name)"/>
+    <arg name="need_odom" default="$(arg need_odom)"/>
   </include>
 
 </launch>
