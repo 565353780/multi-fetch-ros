@@ -52,7 +52,7 @@ if __name__ == "__main__":
     print("\t direction = [", direction_x, direction_y, direction_z, "]")
 
     try:
-        fetch_move_serve = rospy.ServiceProxy(fetch_service_name, ViewPointToNone)
+        fetch_move_serve = rospy.ServiceProxy(fetch_service_name, ViewPointToBool)
         viewpoint = ViewPoint()
         viewpoint.position.x = position_x
         viewpoint.position.y = position_y
