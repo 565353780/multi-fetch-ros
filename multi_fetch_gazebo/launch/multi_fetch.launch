@@ -55,6 +55,9 @@
     <arg name="world_name" value="$(arg world_name)"/>
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="robot_num" value="$(arg robot_num)"/>
+    <arg name="robot_depth_image_topic_prefix" value="/head_camera/depth_registered/"/>
+    <arg name="robot_rgb_image_topic_prefix" value="/head_camera/rgb/"/>
+    <arg name="robot_camera_groud_truth_topic_name" value="head_camera_ground_truth"/>
   </include>
 
 </launch>
