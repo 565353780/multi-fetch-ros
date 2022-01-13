@@ -39,4 +39,10 @@
     <arg name="robot_z" value="$(arg robot_z)" />
     <arg name="robot_yaw" value="$(arg robot_yaw)" />
   </include>
+
+  <include file="$(find multi_fetch_controller)/launch/multi_fetch_control_server.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="robot_num" value="$(arg robot_num)" />
+  </include>
 </launch>
+

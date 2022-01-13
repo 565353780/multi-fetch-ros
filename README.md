@@ -3,8 +3,18 @@
 ## Install
 ```shell
 sudo apt install ros-noetic-octomap libcgal-dev python3-catkin-tools
+```
 
+## Clone
+```bash
 mkdir -p multi_fetch_ws/src
+cd multi_fetch_ws/src
+git clone https://github.com/565353780/multi-fetch-ros.git
+cd ..
+```
+
+## Build
+```bash
 cd multi_fetch_ws
 catkin init
 catkin config --cmake-args -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=Yes
@@ -16,23 +26,21 @@ catkin build multi-fetch-ros
 ```
 
 ## Run
+must running this
 ```shell
+cd multi_fetch_ws
+source devel/setup.zsh
 roslaunch multi_fetch_gazebo simple_start.launch
 roslaunch multi_fetch_gazebo move_group.launch
-roslaunch multi_fetch_controller multi_fetch_control_server.launch
 ```
 
-use keyboard to control all fetch
+control method 1 : use keyboard to control all fetch
 ```bash
 rosrun multi_robot_gazebo multi_fetch_teleop_twist_keyboard.py
 ```
 
-test auto nav for multi fetch
+control method 2: auto nav for multi fetch
 ```bash
-cd coscan_ws
-source devel/setup.zsh
-roslaunch multi_robot_gazebo simple_start_fetch.launch
-roslaunch multi_fetch_gazebo multi_fetch_move_group.launch
 rosrun multi_fetch_controller test_multi_fetch_control_service.py
 idx range : select in [0, 1, 2]
 viewpoint :
