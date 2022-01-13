@@ -7,31 +7,38 @@ sudo apt install ros-noetic-octomap libcgal-dev python3-catkin-tools
 mkdir -p multi_fetch_ws/src
 cd multi_fetch_ws
 catkin init
-# for debug mode
-catkin_ws$ catkin config --cmake-args -DCMAKE_BUILD_TYPE=Debug
-# let cmake export compile_commands.json
-catkin_ws$ catkin config --cmake-args -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-# for release mode
 catkin config --cmake-args -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=Yes
-# for use only
-catkin config --cmake-args -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release
 
 # if need to combine with other workspace, run this
 catkin config --extend <path-to-other-ws-devel-folder>
 
-catkin_ws$ catkin build
+catkin build multi-fetch-ros
 ```
 
 ## Run
 ```shell
-roslaunch multi_robot_gazebo multi_fetch.launch
-roslaunch multi_robot_gazebo move_group.launch
+roslaunch multi_fetch_gazebo simple_start.launch
+roslaunch multi_fetch_gazebo move_group.launch
+roslaunch multi_fetch_controller multi_fetch_control_server.launch
+```
 
-# use moveit and navigation to control all fetch
-rosrun multi_robot_gazebo fetch_controller.py
-
-# use keyboard to control all fetch
+use keyboard to control all fetch
+```bash
 rosrun multi_robot_gazebo multi_fetch_teleop_twist_keyboard.py
+```
+
+test auto nav for multi fetch
+```bash
+cd coscan_ws
+source devel/setup.zsh
+roslaunch multi_robot_gazebo simple_start_fetch.launch
+roslaunch multi_fetch_gazebo multi_fetch_move_group.launch
+rosrun multi_fetch_controller test_multi_fetch_control_service.py
+idx range : select in [0, 1, 2]
+viewpoint :
+input
+!
+to auto set viewpoint
 ```
 
 ## SOURCE EDIT HISTORY
