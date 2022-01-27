@@ -34,8 +34,8 @@
     <param name="move_base/local_costmap/global_frame" value="fetch_$(arg robot_idx)/odom"/>
 
     <!-- Navigation parameter files -->
-    <arg name="move_base_include" default="$(find multi_robot_gazebo)/launch/include/move_base.launch.xml" />
-    <arg name="amcl_include" default="$(find multi_robot_gazebo)/launch/include/amcl.launch.xml" />
+    <arg name="move_base_include" default="$(find multi_fetch_gazebo)/launch/include/move_base.launch.xml" />
+    <arg name="amcl_include" default="$(find multi_fetch_gazebo)/launch/include/amcl.launch.xml" />
 
     <!-- set topics -->
     <arg name="scan_topic" default="base_scan" />

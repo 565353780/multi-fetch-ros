@@ -36,7 +36,7 @@ roslaunch multi_fetch_gazebo move_group.launch
 
 control method 1 : use keyboard to control all fetch
 ```bash
-rosrun multi_robot_gazebo multi_fetch_teleop_twist_keyboard.py
+rosrun multi_fetch_gazebo multi_fetch_teleop_twist_keyboard.py
 ```
 
 control method 2: auto nav for multi fetch

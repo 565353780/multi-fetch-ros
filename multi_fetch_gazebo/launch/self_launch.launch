@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="robot_name" default="kinect_camera_"/>
+  <arg name="robot_num" default="1"/>
+  <arg name="x" default="0.0" />
+  <arg name="y" default="0.0" />
+  <arg name="z" default="0.0" />
+  <arg name="yaw" default="0.0" />
+
+  <group ns="$(arg robot_name)$(arg robot_num)">
+    <param name="robot_description"
+      command="$(find xacro)/xacro $(find multi_fetch_gazebo)/urdf/kinect_camera.xacro idx:=$(arg robot_num)"/>
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+      args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -model $(arg robot_name)$(arg robot_num) -param robot_description" />
+  </group>
+
+  <include file="$(find multi_fetch_gazebo)/launch/self_launch.launch" if="$(eval arg('robot_num') > 0)">
+    <arg name="robot_num" value="$(eval arg('robot_num') - 1)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="x" value="$(arg x)" />
+    <arg name="y" value="$(arg y)" />
+    <arg name="z" value="$(arg z)" />
+    <arg name="yaw" value="$(arg yaw)" />
+  </include>
+
+</launch>

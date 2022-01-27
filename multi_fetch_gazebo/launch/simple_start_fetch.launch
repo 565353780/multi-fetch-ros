@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="world_file_path" default="$(find multi_fetch_gazebo)/worlds/big_livingroom.world"/>
+  <arg name="scene_name" default="multi_robot_scene" />
+  <arg name="sensor_name" default="primesense" />
+  <arg name="visualize" default="true" />
+  <arg name="world_name" default="map"/>
+  <arg name="robot_name" default="fetch_"/>
+  <arg name="robot_num" default="3"/>
+  <arg name="robot_position_topic_name" default="base_link"/>
+  <arg name="robot_position_ground_truth_name" default="base_link_ground_truth"/>
+  <arg name="need_odom" default="1"/>
+  <arg name="camera_frame_topic_name" default="head_camera_rgb_optical_frame"/>
+  <arg name="camera_depth_image_topic_prefix" default="/head_camera/depth_registered/"/>
+  <arg name="camera_rgb_image_topic_prefix" default="/head_camera/rgb/"/>
+  <arg name="camera_groud_truth_topic_name" default="head_camera_ground_truth"/>
+  <arg name="pub_tf" default="0"/>
+  <arg name="base_controller_publish_frequency" default="100.0"/>
+  <arg name="robot_x" default="0.0" />
+  <arg name="robot_y" default="0.0" />
+  <arg name="robot_z" default="0.0" />
+  <arg name="robot_yaw" default="0.0" />
+
+  <include file="$(find multi_fetch_gazebo)/launch/multi_fetch_with_vpp.launch">
+    <arg name="world_file_path" value="$(arg world_file_path)"/>
+    <arg name="scene_name" value="$(arg scene_name)" />
+    <arg name="sensor_name" value="$(arg sensor_name)" />
+    <arg name="visualize" value="$(arg visualize)" />
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="robot_num" value="$(arg robot_num)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="robot_position_topic_name" value="$(arg robot_position_topic_name)"/>
+    <arg name="robot_position_ground_truth_name" value="$(arg robot_position_ground_truth_name)"/>
+    <arg name="need_odom" value="$(arg need_odom)"/>
+    <arg name="camera_frame_topic_name" default="$(arg camera_frame_topic_name)"/>
+    <arg name="camera_depth_image_topic_prefix" value="$(arg camera_depth_image_topic_prefix)"/>
+    <arg name="camera_rgb_image_topic_prefix" value="$(arg camera_rgb_image_topic_prefix)"/>
+    <arg name="camera_groud_truth_topic_name" value="$(arg camera_groud_truth_topic_name)"/>
+    <arg name="pub_tf" default="$(arg pub_tf)"/>
+    <arg name="base_controller_publish_frequency" value="$(arg base_controller_publish_frequency)"/>
+    <arg name="robot_x" value="$(arg robot_x)" />
+    <arg name="robot_y" value="$(arg robot_y)" />
+    <arg name="robot_z" value="$(arg robot_z)" />
+    <arg name="robot_yaw" value="$(arg robot_yaw)" />
+  </include>
+
+  <!-- <include file="$(find virtual_scan)/launch/virtual_scan_server.launch"/> -->
+  <!-- <include file="$(find grnet_detect)/launch/grnet_service.launch"/> -->
+  <!-- <include file="$(find view_point_extractor)/launch/ViewPointExtractorServer.launch"/> -->
+
+  <!-- <include file="$(find co_scan)/launch/co_scan.launch"/> -->
+</launch>
+

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="world_file_path" default="$(find multi_fetch_gazebo)/worlds/empty.world"/>
+  <arg name="world_name" default="map"/>
+  <arg name="robot_name" default="kinect_camera_"/>
+  <arg name="robot_num" default="3"/>
+  <arg name="robot_position_topic_name" default="base_link"/>
+  <arg name="robot_position_ground_truth_name" default="base_link_ground_truth"/>
+  <arg name="need_odom" default="1"/>
+  <arg name="robot_x" default="0.0" />
+  <arg name="robot_y" default="0.0" />
+  <arg name="robot_z" default="0.0" />
+  <arg name="robot_yaw" default="0.0" />
+
+  <include file="$(find multi_fetch_gazebo)/launch/environment.launch">
+    <arg name="world_file_path" value="$(arg world_file_path)"/>
+  </include>
+
+  <include file="$(find multi_fetch_gazebo)/launch/self_launch.launch">
+    <arg name="robot_num" value="$(eval arg('robot_num') - 1)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="x" value="$(arg robot_x)" />
+    <arg name="y" value="$(arg robot_y)" />
+    <arg name="z" value="$(arg robot_z)" />
+    <arg name="yaw" value="$(arg robot_yaw)" />
+  </include>
+
+  <!-- <include file="$(find robot_position_pub)/launch/pub_robot_position_tf.launch"> -->
+    <!-- <arg name="world_name" value="$(arg world_name)"/> -->
+    <!-- <arg name="robot_name" value="$(arg robot_name)"/> -->
+    <!-- <arg name="robot_num" value="$(arg robot_num)"/> -->
+    <!-- <arg name="robot_position_topic_name" value="$(arg robot_position_topic_name)"/> -->
+    <!-- <arg name="robot_position_ground_truth_name" value="$(arg robot_position_ground_truth_name)"/> -->
+    <!-- <arg name="need_odom" value="$(arg need_odom)"/> -->
+  <!-- </include> -->
+
+</launch>
+

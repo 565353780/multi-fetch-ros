@@ -24,7 +24,7 @@
     <arg name="robot_idx" value="$(arg robot_idx)" />
   </include>
 
-  <!-- <include file="$(find multi_robot_gazebo)/launch/move_group.launch"> -->
+  <!-- <include file="$(find multi_fetch_gazebo)/launch/move_group.launch"> -->
     <!-- <arg name="robot_idx" value="$(arg robot_idx)" /> -->
   <!-- </include> -->
 
