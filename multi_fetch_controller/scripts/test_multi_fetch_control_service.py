@@ -41,7 +41,7 @@ if __name__ == "__main__":
         position_y = float(position_split_list[1])
         position_z = float(position_split_list[2])
 
-        direction = input("Please input direction like 'x,y' :")
+        direction = input("Please input direction like 'x,y,z' :")
         direction_split_list = direction.split(",")
         direction_x = float(direction_split_list[0])
         direction_y = float(direction_split_list[1])
