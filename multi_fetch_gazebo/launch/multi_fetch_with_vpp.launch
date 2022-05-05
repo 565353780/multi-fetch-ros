@@ -21,6 +21,7 @@
   <arg name="robot_y" default="0.0" />
   <arg name="robot_z" default="0.0" />
   <arg name="robot_yaw" default="0.0" />
+  <arg name="scene_pointcloud_folder_path" default=".ros/COSCAN/MatterPort/01/"/>
 
   <include file="$(find multi_fetch_gazebo)/launch/multi_fetch.launch">
     <arg name="world_file_path" value="$(arg world_file_path)"/>
@@ -49,6 +50,7 @@
     <arg name="camera_rgb_image_topic_prefix" value="$(arg camera_rgb_image_topic_prefix)"/>
     <arg name="camera_groud_truth_topic_name" value="$(arg camera_groud_truth_topic_name)"/>
     <arg name="pub_tf" default="$(arg pub_tf)"/>
+    <arg name="scene_pointcloud_folder_path" value="$(arg scene_pointcloud_folder_path)"/>
   </include>
 </launch>
 
