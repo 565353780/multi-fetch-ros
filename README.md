@@ -1,16 +1,13 @@
 # Multi-Fetch ROS Package
 
 ## Install
-```shell
-sudo apt install ros-noetic-octomap libcgal-dev python3-catkin-tools
-```
 
-## Clone
 ```bash
 mkdir -p multi_fetch_ws/src
 cd multi_fetch_ws/src
 git clone https://github.com/565353780/multi-fetch-ros.git
-cd ..
+cd multi-fetch-ros
+./setup.sh
 ```
 
 ## Build
